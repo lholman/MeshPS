@@ -87,10 +87,11 @@ Properties {
     # settings file, so that on subsequent publishes you will no longer be prompted for the API key.
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='NuGetApiKey')]
     $NuGetApiKey = $null
+    $NuGetApiFeedURL = "https://packages.aberdeen.aberdeen-asset.com/nuget/InfrastructurePS"
 
     # Name of the repository you wish to publish to. If $null is specified the default repo (PowerShellGallery) is used.
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='PublishRepository')]
-    $PublishRepository = $null
+    $PublishRepository = "AAMInfrastructurePS"
 
     # Path to the release notes file.  Set to $null if the release notes reside in the manifest file.
     # The contents of this file are used during publishing for the ReleaseNotes parameter.
