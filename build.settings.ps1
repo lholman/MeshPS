@@ -86,7 +86,7 @@ Properties {
     # you will be prompted to enter your API key.  The build will store the key encrypted in the
     # settings file, so that on subsequent publishes you will no longer be prompted for the API key.
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='NuGetApiKey')]
-    $NuGetApiKey = $null
+    $NuGetApiKey = "AIzaSyDXrGuLtDqyVg4ZQPQ87FvuyIRvd9tMicM"
     $NuGetApiFeedURL = "https://packages.aberdeen.aberdeen-asset.com/nuget/InfrastructurePS"
 
     # Name of the repository you wish to publish to. If $null is specified the default repo (PowerShellGallery) is used.
