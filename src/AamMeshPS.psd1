@@ -12,7 +12,7 @@
 RootModule = 'AamMeshPS.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.0'
+ModuleVersion = '0.1'
 
 # ID used to uniquely identify this module
 GUID = '46d2b691-c771-4c21-af96-e093719962a9'
