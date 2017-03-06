@@ -1,11 +1,24 @@
-[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='SuppressImportModule')]
-$SuppressImportModule = $true
-. $PSScriptRoot\Shared.ps1
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path).Replace(".Tests.", ".").Replace(".ps1","")
+$baseModulePath = "$here\..\src\"
 
-Describe 'Module Manifest Tests' {
-    It 'Passes Test-ModuleManifest' {
-        Test-ModuleManifest -Path $ModuleManifestPath
-        $? | Should Be $true
+$module = Get-Module $sut
+
+Describe 'Get-Node retrieving data' {
+
+    Import-Module "$baseModulePath\$sut"
+    Mock -ModuleName $sut Invoke-RestMethod {} -Verifiable -ParameterFilter {
+        (($Uri -eq "https://mesh.aberdeen.aberdeen-asset.com/nodes/UK1DEVCHFAPP001"))
     }
-}
+    Mock -ModuleName $sut Get-Credential {}
+    $domain_user = 'username'
+    $domain_password = 'password' | ConvertTo-SecureString -asPlainText -Force
+    $creds = New-Object System.Management.Automation.PSCredential($domain_user,$domain_password)
 
+    Get-Node -NodeName UK1DEVCHFAPP001 -Credential $creds
+
+    It 'Connects to mesh and pulls node information' {
+	        Assert-MockCalled Invoke-RestMethod -ModuleName $sut -Exactly 1
+    }
+
+}

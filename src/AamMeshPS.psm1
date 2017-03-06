@@ -1,5 +1,22 @@
-# Implement your module commands in this script.
+function Get-Node {
+     [CmdletBinding()]
+     Param(
+            [Parameter(Mandatory = $True)]
+                [String]
+                $NodeName,
+            [Parameter(Mandatory = $False)]
+                [PSCredential]
+                $Credential
+     )
 
+        $creds = ""
+        if ($Credential)
+        {
+            $creds = $Credential
+        }else{
+            $creds = Get-Credential
+        }
 
-# Export only the functions using PowerShell standard verb-noun naming.
-Export-ModuleMember -Function *-*
+        return Invoke-RestMethod -Uri "https://mesh.aberdeen.aberdeen-asset.com/nodes/$NodeName" -Method GET -Credential $creds
+}
+Export-ModuleMember -Function Get-Node
