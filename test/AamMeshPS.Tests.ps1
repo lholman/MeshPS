@@ -7,6 +7,15 @@ $module = Get-Module $sut
 Describe 'Get-Node retrieving data' {
 
     Import-Module "$baseModulePath\$sut"
-    Mock -ModuleName $sut Get-Node {} -Verifiable -ParameterFilter {
-        (())
+    Mock -ModuleName $sut Invoke-RestMethod {} -Verifiable -ParameterFilter {
+        (($Uri -eq "https://mesh.aberdeen.aberdeen-asset.com/nodes/UK1DEVCHFAPP001"))
     }
+    Mock -ModuleName $sut Get-Credential {}
+
+    Get-Node -NodeName UK1DEVCHFAPP001
+
+    It 'bla' {
+	        Assert-MockCalled Invoke-RestMethod -ModuleName $sut -Exactly 1
+    }
+
+}
