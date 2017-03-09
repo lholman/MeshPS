@@ -27,7 +27,15 @@ Describe 'Get-NodeRegion' {
 
     Import-Module "$baseModulePath\$sut"
 
+    Context "When old style (e.g. UK2-D-ADM005) NodeName format is passed" {
+
+        It "Should return the DEV environment identifier if -D- is in node name" {
+            Get-NodeRegion -NodeName "UK2-D-ADM005" | Should Be "EMEA"
+        }
+    }
+
     Context "When new style (e.g. UK1DEVGENAPP222) NodeName format is passed" {
+
         It 'Should return the region EMEA for node with a UK1 environment prefix' {
             Get-NodeRegion -NodeName "UK1DEVCHFAPP001" | Should Be "EMEA"
         }
