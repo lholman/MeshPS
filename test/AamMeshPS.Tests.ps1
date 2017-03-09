@@ -63,5 +63,8 @@ Describe 'Get-NodeRegion' {
         It "Should throw a meaningful exception when location identifier is not recognized"{
             {Get-NodeRegion -nodeName "ABCDEVGENAPP222" } | Should Throw
         }
+        It 'Should return the correct region is the node name is lowercase' {
+            Get-NodeRegion -NodeName "uk1devchfapp001" | Should Be "EMEA"
+        }
     }
 }

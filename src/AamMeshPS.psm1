@@ -31,6 +31,8 @@ function Get-NodeRegion {
 				$NodeName
 			)
 
+            $NodeName = $NodeName.ToUpper()
+
            switch -wildcard ($NodeName)
             {
                 "UK[1-4]*" {return "EMEA"}
