@@ -27,6 +27,19 @@ Describe 'Get-NodeRegion' {
 
     Import-Module "$baseModulePath\$sut"
 
+    Context "When location identifier is not as expected" {
+
+        It "Should throw a meaningful exception when location identifier is not recognized"{
+            {Get-NodeRegion -nodeName "ABCDEVGENAPP222" } | Should Throw
+        }
+        It 'Should return the correct region is the node name is lowercase' {
+            Get-NodeRegion -NodeName "uk1devchfapp001" | Should Be "EMEA"
+        }
+        It 'Should ensure the location identifier is at the start of the node name and is 3 characters long' {
+            {Get-NodeRegion -NodeName "ZUK1DEVCHFAPP00"} | Should Throw
+        }
+    }
+
     Context "When old style (e.g. UK2-D-ADM005) NodeName format is passed" {
 
         It "Should return the DEV location identifier if -D- is in node name" {
@@ -60,11 +73,6 @@ Describe 'Get-NodeRegion' {
         It 'Should return the region AMRS for node with a US2 location prefix' {
             Get-NodeRegion -NodeName "US2DEVCHFAPP001" | Should Be "AMRS"
         }
-        It "Should throw a meaningful exception when location identifier is not recognized"{
-            {Get-NodeRegion -nodeName "ABCDEVGENAPP222" } | Should Throw
-        }
-        It 'Should return the correct region is the node name is lowercase' {
-            Get-NodeRegion -NodeName "uk1devchfapp001" | Should Be "EMEA"
-        }
+
     }
 }
