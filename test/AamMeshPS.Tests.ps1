@@ -22,3 +22,12 @@ Describe 'Get-Node retrieving data' {
     }
 
 }
+
+Describe 'Get-NodeRegion' {
+
+    Import-Module "$baseModulePath\$sut"
+
+    It 'Should return the region EMEA for node with a UK1 environment prefix' {
+        Get-NodeRegion -NodeName "UK1DEVCHFAPP001" | Should Be "EMEA"
+    }
+}

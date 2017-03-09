@@ -19,4 +19,24 @@ function Get-Node {
 
         return Invoke-RestMethod -Uri "https://mesh.aberdeen.aberdeen-asset.com/nodes/$NodeName" -Method GET -Credential $creds
 }
-Export-ModuleMember -Function Get-Node
+
+function Get-NodeRegion {
+	[CmdletBinding()]
+	[OutputType([String])]
+		Param(
+			[Parameter(Mandatory = $True,
+                HelpMessage="Please supply a value for NodeName" )]
+                [ValidateNotNullOrEmpty()]
+				[String]
+				$NodeName
+			)
+
+           switch -wildcard ($NodeName)
+            {
+                "*UK1*" {return "EMEA"}
+                default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
+            }
+
+}
+
+Export-ModuleMember -Function Get-Node, Get-NodeRegion
