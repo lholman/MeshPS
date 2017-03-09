@@ -48,5 +48,12 @@ Describe 'Get-NodeRegion' {
         It 'Should return the region EMEA for node with a UK4 environment prefix' {
             Get-NodeRegion -NodeName "UK4DEVCHFAPP001" | Should Be "EMEA"
         }
+
+        It 'Should return the region APAC for node with a SP1 environment prefix' {
+            Get-NodeRegion -NodeName "SP1DEVCHFAPP001" | Should Be "APAC"
+        }
+        It 'Should return the region APAC for node with a MY1 environment prefix' {
+            Get-NodeRegion -NodeName "MY1DEVCHFAPP001" | Should Be "APAC"
+        }
     }
 }
