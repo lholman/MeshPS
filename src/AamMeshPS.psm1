@@ -33,7 +33,7 @@ function Get-NodeRegion {
 
            switch -wildcard ($NodeName)
             {
-                "*UK1*" {return "EMEA"}
+                "*UK[1-4]*" {return "EMEA"}
                 default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
             }
 

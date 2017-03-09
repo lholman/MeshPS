@@ -27,7 +27,18 @@ Describe 'Get-NodeRegion' {
 
     Import-Module "$baseModulePath\$sut"
 
-    It 'Should return the region EMEA for node with a UK1 environment prefix' {
-        Get-NodeRegion -NodeName "UK1DEVCHFAPP001" | Should Be "EMEA"
+    Context "When new style (e.g. UK1DEVGENAPP222) NodeName format is passed" {
+        It 'Should return the region EMEA for node with a UK1 environment prefix' {
+            Get-NodeRegion -NodeName "UK1DEVCHFAPP001" | Should Be "EMEA"
+        }
+        It 'Should return the region EMEA for node with a UK2 environment prefix' {
+            Get-NodeRegion -NodeName "UK2DEVCHFAPP001" | Should Be "EMEA"
+        }
+        It 'Should return the region EMEA for node with a UK3 environment prefix' {
+            Get-NodeRegion -NodeName "UK3DEVCHFAPP001" | Should Be "EMEA"
+        }
+        It 'Should return the region EMEA for node with a UK4 environment prefix' {
+            Get-NodeRegion -NodeName "UK4DEVCHFAPP001" | Should Be "EMEA"
+        }
     }
 }
