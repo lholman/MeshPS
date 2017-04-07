@@ -76,3 +76,29 @@ Describe 'Get-NodeRegion' {
 
     }
 }
+
+Describe "Get-EnvironmentFromNodeName parameters" {
+    Import-Module "$baseModulePath\$sut"
+    Context "When nodeName is null or empty" {
+
+        It "Should throw a meaningful exception when null"{
+            {Get-NodeEnvironment -NodeName "" } | Should Throw
+        }
+        It "Should throw a meaningful exception when empty"{
+            {Get-NodeEnvironment -NodeName $null } | Should Throw
+        }
+    }
+    Context "When NodeName parameter is passed" {
+
+        Mock -ModuleName $sut Get-EnvironmentIdentifier {return "DEV"} -ParameterFilter {$NodeName -eq "UK2-D-ADM005"}
+        $environmentIdentifier = "DEV"
+        $response = Get-NodeEnvironment -NodeName "UK2-D-ADM005"
+
+        It "Should return the expected environment identifier" {
+            $response | Should Be $environmentIdentifier
+        }
+        It "Should call Get-EnvironmentIdentifier once to get the environment identifier from the node name" {
+            Assert-MockCalled Get-EnvironmentIdentifier -ModuleName $sut -Times 1
+        }
+    }
+}
