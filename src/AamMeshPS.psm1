@@ -63,4 +63,41 @@ function Get-NodeRegion {
 
 }
 
-Export-ModuleMember -Function Get-Node, Get-NodeRegion
+function Get-NodeEnvironment {
+	[CmdletBinding()]
+	[OutputType([String])]
+		Param(
+			[Parameter(Mandatory = $True,
+                HelpMessage="Please supply a value for NodeName" )]
+                [ValidateNotNullOrEmpty()]
+				[String]
+				$NodeName
+			)
+
+     return Get-EnvironmentIdentifier -NodeName $NodeName
+
+}
+
+function Get-EnvironmentIdentifier {
+	[CmdletBinding()]
+	[OutputType([String])]
+		Param(
+			[Parameter(Mandatory = $True,
+                HelpMessage="Please supply a value for NodeName" )]
+                [ValidateNotNullOrEmpty()]
+				[String]
+				$NodeName
+			)
+
+process {
+        switch -regex ($NodeName)
+        {
+            "DEV|-D-" {return "DEV";break}
+            "UAT|-U-" {return "UAT";break}
+            "PRD|DRS|-P-|-R-" {return "PRD";break}
+            default {Throw "Error: Get-EnvironmentFromNodeName:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"}
+        }
+    }
+}
+
+Export-ModuleMember -Function Get-Node, Get-NodeRegion, Get-NodeEnvironment
