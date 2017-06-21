@@ -38,6 +38,9 @@ Describe 'Get-NodeRegion' {
         It 'Should ensure the location identifier is at the start of the node name and is 3 characters long' {
             {Get-NodeRegion -NodeName "ZUK1DEVCHFAPP00"} | Should Throw
         }
+        It "Should throw a meaningful exception when an Azure location identifier is not recognized"{
+            {Get-NodeRegion -nodeName "M15PRDADSAPP001" } | Should Throw
+        }
     }
 
     Context "When old style (e.g. UK2-D-ADM005) NodeName format is passed" {
@@ -72,6 +75,12 @@ Describe 'Get-NodeRegion' {
         }
         It 'Should return the region AMRS for node with a US2 location prefix' {
             Get-NodeRegion -NodeName "US2DEVCHFAPP001" | Should Be "AMRS"
+        }
+        It 'Should return the region EMEA for node with Azure lowest location prefix' {
+            Get-NodeRegion -NodeName "M01PRDADSAPP001" | Should Be "EMEA"
+        }
+        It 'Should return the region EMEA for node with Azure highest location prefix' {
+            Get-NodeRegion -NodeName "M14PRDADSAPP001" | Should Be "EMEA"
         }
 
     }
