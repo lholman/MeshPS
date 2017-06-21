@@ -73,6 +73,9 @@ Describe 'Get-NodeRegion' {
         It 'Should return the region AMRS for node with a US2 location prefix' {
             Get-NodeRegion -NodeName "US2DEVCHFAPP001" | Should Be "AMRS"
         }
+        It 'Should return the region EMEA for node with Azure location prefix' {
+            Get-NodeRegion -NodeName "M01PRDADSAPP001" | Should Be "EMEA"
+        }
 
     }
 }

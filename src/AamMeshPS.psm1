@@ -58,6 +58,7 @@ function Get-NodeRegion {
                 "SP1" {return "APAC"}
                 "MY1" {return "APAC"}
                 "US[1-2]" {return "AMRS"}
+                "M01" {return "EMEA"}
                 default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
             }
 
