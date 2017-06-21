@@ -54,10 +54,10 @@ function Get-NodeRegion {
 
            switch -regex ($NodeName)
             {
-                "UK[1-4]" {return "EMEA"}
-                "SP1" {return "APAC"}
-                "MY1" {return "APAC"}
-                "US[1-2]" {return "AMRS"}
+                "^UK[1-4]" {return "EMEA"}
+                "^SP1" {return "APAC"}
+                "^MY1" {return "APAC"}
+                "^US[1-2]" {return "AMRS"}
                 "^M0[1-9]|1[0-4]$" {return "EMEA"}
                 default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
             }
