@@ -52,13 +52,13 @@ function Get-NodeRegion {
             $NodeName = $NodeName.ToUpper()
             $NodeName = $NodeName.SubString(0,3)
 
-           switch -wildcard ($NodeName)
+           switch -regex ($NodeName)
             {
                 "UK[1-4]" {return "EMEA"}
                 "SP1" {return "APAC"}
                 "MY1" {return "APAC"}
                 "US[1-2]" {return "AMRS"}
-                "M01" {return "EMEA"}
+                "^M0[1-9]|1[0-4]$" {return "EMEA"}
                 default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
             }
 
