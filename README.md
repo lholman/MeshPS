@@ -12,8 +12,11 @@ Invoke-PSake .\build.psake.ps1 -taskList Test
 
 ## Background
 **Node:** A server or virtual machine
+
 **Node name:** The hostname of the node. Two formats are supported old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222)
+
 **Region identifier:** Regions include EMEA (Europe), APAC (Asia-Pacific), AMRS (Americas). The region specifies where in the world the node is deployed.
+
 **Environment identifier:** Environments include DEV (Development), UAT (User-Acceptance Test) and more. The environment specifies how and when the node is managed, patched and deployed to across the estate.
 
 
