@@ -1,4 +1,4 @@
-# AamMeshPS
+# AAM Infrastructure Engineer Test - Node names
 This is test used as part of the application process for Infrastructure Engineers at AAM. The challenge is to fix this partially completed PowerShell module so that all Pester tests pass, you will find various syntax issues and tests missing their code implementation.
 
 ## Pester Tests
