@@ -24,14 +24,7 @@ Describe 'Get-NodeRegion' {
         }
     }
 
-    Context "When old style (e.g. UK2-D-ADM005) NodeName format is passed" {
-
-        It "Should return the DEV location identifier if -D- is in node name" {
-            Get-NodeRegion -NodeName "UK2-D-ADM005" | Should Be "EMEA"
-        }
-    }
-
-    Context "When new style (e.g. UK1DEVGENAPP222) NodeName format is passed" {
+    Context "When location identifier is as expected" {
 
         It 'Should return the region EMEA for node with a UK1 location prefix' {
             Get-NodeRegion -NodeName "UK1DEVCHFAPP001" | Should Be "EMEA"
