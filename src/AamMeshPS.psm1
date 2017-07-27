@@ -25,7 +25,7 @@ function Get-Node {
 .SYNOPSIS
     Given a node name will return the corresponding region name based on the node names location identifier.
 .DESCRIPTION
-    Given a node name in the old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222) style will return the corresponding region name based on the node names location identifier.
+    Given a node name in the format UK1DEVGENAPP222 will return the corresponding region name based on the node names location identifier.
 .NOTES
 	Requirements: Copy this module to any location found in $env:PSModulePath
 .PARAMETER NodeName
