@@ -1,5 +1,5 @@
 # AAM Infrastructure Engineer Test - Node names
-This is test used as part of the application process for Infrastructure Engineers at AAM. The challenge is to fix this partially completed PowerShell module so that all Pester tests pass, you will find various syntax issues and tests missing their code implementation.
+This is a test used as part of the application process for Infrastructure Engineers at AAM. The challenge is to fix this partially completed PowerShell module so that all Pester tests pass, you will find various syntax issues and tests missing their code implementation.
 
 ## Pester Tests
 Pester tests are created and placed in the test folder. Running the command below from the root of the AamMeshPS repo will run all of the Pester tests in the Test repo.
@@ -21,7 +21,8 @@ Invoke-PSake .\build.psake.ps1 -taskList Test
 
 
 ## Test
-
+* Complete the Get-NodeEnvironment function so that all failing tests pass.
+* Improve the Get-Node function. This may include syntax, JSON validation etc.
 
 **Bonus points** for forking the repo and submitting a PR
 
