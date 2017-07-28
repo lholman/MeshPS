@@ -151,3 +151,23 @@ Describe "Get-NodeEnvironment parameters" {
         }
     }
 }
+
+Describe 'Get-Node' {
+    Import-Module "$baseModulePath\$sut"
+    Context "Retrieving data" {
+
+        Mock -ModuleName $sut Get-NodeJson {return "{""node"":{""uptime"":""36:45"",""name"":""UK1DEVCHFAPP001""}}"} -Verifiable
+
+        $expectedOutput = ("{""node"":{""uptime"":""36:45"",""name"":""UK1DEVCHFAPP001""}}" | ConvertFrom-Json)
+
+        $node = Get-Node -NodeName "UK1DEVCHFAPP001" -Verbose
+
+        It "Returns an Object that contains the node name" {
+            $node.node.name| Should Be $expectedOutput.node.name
+        }
+        It "Returns an Object that contains the node uptime" {
+            $node.node.uptime| Should Be $expectedOutput.node.uptime
+        }
+    }
+
+}

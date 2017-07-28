@@ -4,17 +4,6 @@
     Given a node name will return the corresponding region name based on the node names location identifier.
 .DESCRIPTION
     Given a node name in the format UK1DEVGENAPP222 will return the corresponding region name based on the node names location identifier.
-.NOTES
-	Requirements: Copy this module to any location found in $env:PSModulePath
-.PARAMETER NodeName
-    Mandatory. The node name to retrieve the region for
-.EXAMPLE
-	Import-Module AamMeshPS
-	Import the module
-.EXAMPLE
-	Get-Command -Module AamMeshPS
-    Get-NodeRegion -NodeName "UK1DEVCHFAPP001"
-.EXAMPLE
 #>
 function Get-NodeRegion {
 	[CmdletBinding()]
@@ -46,16 +35,6 @@ function Get-NodeRegion {
     Wrapper function. Given a node name will return the corresponding environment name based on the node names environment identifier.
 .DESCRIPTION
     Given a node name in the old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222) style will return the corresponding environment name based on the node names environment identifier
-.NOTES
-	Requirements: Copy this module to any location found in $env:PSModulePath
-.PARAMETER NodeName
-    Mandatory. The node name to retrieve the region for
-.EXAMPLE
-	Import-Module AamMeshPS
-	Import the module
-.EXAMPLE
-	Get-Command -Module AamMeshPS
-    Get-NodeRegion -NodeName "UK1DEVCHFAPP001"
 #>
 function Get-NodeEnvironment {
 	[CmdletBinding()]
@@ -78,16 +57,6 @@ function Get-NodeEnvironment {
     Given a node name will return the corresponding environment name based on the node names environment identifier.
 .DESCRIPTION
     Given a node name in the old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222) style will return the corresponding environment name based on the node names environment identifier
-.NOTES
-	Requirements: Copy this module to any location found in $env:PSModulePath
-.PARAMETER NodeName
-    Mandatory. The node name to retrieve the region for
-.EXAMPLE
-	Import-Module AamMeshPS
-	Import the module
-.EXAMPLE
-	Get-Command -Module AamMeshPS
-    Get-NodeRegion -NodeName "UK1DEVCHFAPP001"
 #>
 function Get-EnvironmentIdentifier {
 	[CmdletBinding()]
@@ -103,4 +72,76 @@ function Get-EnvironmentIdentifier {
     Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
 }
 
-Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment
+<#
+.SYNOPSIS
+    Given a node name will return a custom PSObject containing the node name, environment and region names
+.DESCRIPTION
+   Given a node name will return a custom PSObject containing the node name, environment and region names
+#>
+function Get-Node {
+     [CmdletBinding()]
+     [OutputType([PSCustomObject])]
+     Param(
+            [Parameter(Mandatory = $True)]
+                [String]
+                $NodeName
+     )
+
+        $nodeJson = Get-NodeJson -NodeName $NodeName
+        return ConvertTo-NodeObject -Json $nodeJson
+}
+
+function Get-NodeJson {
+    [CmdletBinding()]
+    [OutputType([String])]
+    Param(
+            [Parameter(Mandatory = $True)]
+                [String]
+                $NodeName
+	)
+
+        return Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
+}
+
+function ConvertTo-NodeObject {
+    [CmdletBinding()]
+    [OutputType([PSCustomObject])]
+	Param(
+		[Parameter(
+			Mandatory=$True,
+			HelpMessage="Please supply some JSON to validate" )]
+			[ValidateNotNullOrEmpty()]
+			[String]
+			$Json
+	)
+
+        if (Confirm-ValidJson -Json $nodeJson)
+        {
+            $nodeObject = ($Json | ConvertFrom-Json)
+            return $nodeObject
+        }
+}
+
+function Confirm-ValidJson {
+    [CmdletBinding()]
+    [OutputType([Boolean])]
+	Param(
+		[Parameter(
+			Mandatory=$True,
+			HelpMessage="Please supply some JSON to validate" )]
+			[ValidateNotNullOrEmpty()]
+			[String]
+			$Json
+	)
+
+	try {
+		return $Json | ConvertFrom-Json
+	}
+	catch {
+		Write-Error "Error: Invalid Json string: $Json"
+	}
+}
+
+
+
+Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment, Get-Node
