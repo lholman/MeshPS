@@ -156,7 +156,7 @@ Describe 'Get-Node' {
     Import-Module "$baseModulePath\$sut"
     Context "Retrieving data" {
 
-        Mock -ModuleName $sut Get-NodeJson {return "{""node"":{""uptime"":""36:45"",""name"":""UK1DEVCHFAPP001""}}"} -Verifiable
+        Mock -ModuleName $sut Invoke-RestMethod {return "{""node"":{""uptime"":""36:45"",""name"":""UK1DEVCHFAPP001""}}"} -Verifiable
 
         $expectedOutput = ("{""node"":{""uptime"":""36:45"",""name"":""UK1DEVCHFAPP001""}}" | ConvertFrom-Json)
 

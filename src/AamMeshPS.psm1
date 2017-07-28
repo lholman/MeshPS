@@ -72,76 +72,18 @@ function Get-EnvironmentIdentifier {
     Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
 }
 
-<#
-.SYNOPSIS
-    Given a node name will return a custom PSObject containing the node name, environment and region names
-.DESCRIPTION
-   Given a node name will return a custom PSObject containing the node name, environment and region names
-#>
+
 function Get-Node {
-     [CmdletBinding()]
-     [OutputType([PSCustomObject])]
      Param(
-            [Parameter(Mandatory = $True)]
-                [String]
+            [Parameter()]
                 $NodeName
      )
 
-        $nodeJson = Get-NodeJson -NodeName $NodeName
-        return ConvertTo-NodeObject -Json $nodeJson
+        $JSON = Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
+
+        $n = ($JSON | ConvertFrom-Json)
+        return $n
+
 }
-
-function Get-NodeJson {
-    [CmdletBinding()]
-    [OutputType([String])]
-    Param(
-            [Parameter(Mandatory = $True)]
-                [String]
-                $NodeName
-	)
-
-        return Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
-}
-
-function ConvertTo-NodeObject {
-    [CmdletBinding()]
-    [OutputType([PSCustomObject])]
-	Param(
-		[Parameter(
-			Mandatory=$True,
-			HelpMessage="Please supply some JSON to validate" )]
-			[ValidateNotNullOrEmpty()]
-			[String]
-			$Json
-	)
-
-        if (Confirm-ValidJson -Json $nodeJson)
-        {
-            $nodeObject = ($Json | ConvertFrom-Json)
-            return $nodeObject
-        }
-}
-
-function Confirm-ValidJson {
-    [CmdletBinding()]
-    [OutputType([Boolean])]
-	Param(
-		[Parameter(
-			Mandatory=$True,
-			HelpMessage="Please supply some JSON to validate" )]
-			[ValidateNotNullOrEmpty()]
-			[String]
-			$Json
-	)
-
-	try {
-		return $Json | ConvertFrom-Json
-	}
-	catch {
-		Write-Error "Error: Invalid Json string: $Json"
-	}
-}
-
-
 
 Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment, Get-Node
