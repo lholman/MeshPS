@@ -100,13 +100,7 @@ function Get-EnvironmentIdentifier {
             $NodeName
         )
 
-    switch -regex ($NodeName)
-    {
-        "DEV|-D-" {return "DEV";break}
-        "UAT|-U-" {return "UAT";break}
-        "PRD|DRS|-P-|-R-" {return "PRD";break}
-        default {Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"}
-    }
+    Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
 }
 
 Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment
