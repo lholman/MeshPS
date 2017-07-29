@@ -76,7 +76,7 @@ function Get-EnvironmentIdentifier {
         "-U-|UAT" {
             return "UAT"
         }
-        "-P-|-R-|PRD" {
+        "-P-|-R-|PRD|DRS" {
             return "PRD"
         }
         default {
