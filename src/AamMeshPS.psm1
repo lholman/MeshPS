@@ -79,10 +79,15 @@ function Get-Node {
         $NodeName
     )
 
-    $JSON = Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
+    $json = Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
 
-    $n = ($JSON | ConvertFrom-Json)
-    return $n
+    try {
+        $validJson = ($json | ConvertFrom-Json)
+        return $validJson
+    }
+    catch {
+        Throw "Error: Parsed JSON is invalid, $Json"
+    }
 }
 
 Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment, Get-Node
