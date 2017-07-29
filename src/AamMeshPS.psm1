@@ -70,18 +70,10 @@ function Get-EnvironmentIdentifier {
         )
 
     switch -regex ($NodeName) {
-        "-D-|DEV" {
-            return "DEV"
-        }
-        "-U-|UAT" {
-            return "UAT"
-        }
-        "-P-|-R-|PRD|DRS" {
-            return "PRD"
-        }
-        default {
-            Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
-        }
+        "-D-|DEV" {return "DEV"}
+        "-U-|UAT" {return "UAT"}
+        "-P-|-R-|PRD|DRS" {return "PRD"}
+        default {Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"}
     }
 }
 
