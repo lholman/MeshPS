@@ -76,6 +76,9 @@ function Get-EnvironmentIdentifier {
         "-U-|UAT" {
             return "UAT"
         }
+        "-P-|-R-|PRD" {
+            return "PRD"
+        }
         default {
             Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
         }
