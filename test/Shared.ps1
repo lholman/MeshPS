@@ -8,4 +8,3 @@ if (!$SuppressImportModule) {
     # the module's functions cannot be found in the AamMeshPS\ namespace
     Import-Module $ModuleManifestPath -Scope Global
 }
-

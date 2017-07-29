@@ -4,7 +4,7 @@ This is a test used as part of the application process for Infrastructure Engine
 ## Pester Tests
 Pester tests are created and placed in the test folder. Running the command below from the root of the AamMeshPS repo will run all of the Pester tests in the Test repo.
 
-```
+```powershell
 Invoke-PSake .\build.psake.ps1 -taskList Test
 ```
 
@@ -19,11 +19,8 @@ Invoke-PSake .\build.psake.ps1 -taskList Test
 
 **Environment identifier:** Environments include DEV (Development), UAT (User-Acceptance Test) and more. The environment specifies how and when the node is managed, patched and deployed to across the estate.
 
-
 ## Test
 * Complete the Get-NodeEnvironment function so that all failing tests pass.
 * Improve the Get-Node function. This may include syntax, JSON validation etc.
 
 **Bonus points** for forking the repo and submitting a PR
-
-

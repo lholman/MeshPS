@@ -1,33 +1,31 @@
 <#
-
 .SYNOPSIS
     Given a node name will return the corresponding region name based on the node names location identifier.
 .DESCRIPTION
     Given a node name in the format UK1DEVGENAPP222 will return the corresponding region name based on the node names location identifier.
 #>
 function Get-NodeRegion {
-	[CmdletBinding()]
-	[OutputType([String])]
+    [CmdletBinding()]
+    [OutputType([String])]
     Param(
         [Parameter(Mandatory = $True,
-            HelpMessage="Please supply a value for NodeName" )]
-            [ValidateNotNullOrEmpty()]
-            [String]
-            $NodeName
-        )
+            HelpMessage = "Please supply a value for NodeName" )]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $NodeName
+    )
 
-        $NodeName = $NodeName.ToUpper()
-        $NodeName = $NodeName.SubString(0,3)
+    $NodeName = $NodeName.ToUpper()
+    $NodeName = $NodeName.SubString(0, 3)
 
-        switch -regex ($NodeName)
-        {
-            "^UK[1-4]" {return "EMEA"}
-            "^SP1" {return "APAC"}
-            "^MY1" {return "APAC"}
-            "^US[1-2]" {return "AMRS"}
-            "^M0[1-9]|1[0-4]$" {return "EMEA"}
-            default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
-        }
+    switch -regex ($NodeName) {
+        "^UK[1-4]" {return "EMEA"}
+        "^SP1" {return "APAC"}
+        "^MY1" {return "APAC"}
+        "^US[1-2]" {return "AMRS"}
+        "^M0[1-9]|1[0-4]$" {return "EMEA"}
+        default {Throw "Error: Get-NodeRegion: Unrecognized environment identifier within node name"}
+    }
 }
 
 <#
@@ -37,20 +35,18 @@ function Get-NodeRegion {
     Given a node name in the old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222) style will return the corresponding environment name based on the node names environment identifier
 #>
 function Get-NodeEnvironment {
-	[CmdletBinding()]
-	[OutputType([String])]
+    [CmdletBinding()]
+    [OutputType([String])]
     Param(
         [Parameter(Mandatory = $True,
-            HelpMessage="Please supply a value for NodeName" )]
-            [ValidateNotNullOrEmpty()]
-            [String]
-            $NodeName
-        )
+            HelpMessage = "Please supply a value for NodeName" )]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $NodeName
+    )
 
-     return Get-EnvironmentIdentifier -NodeName $NodeName
-
+    return Get-EnvironmentIdentifier -NodeName $NodeName
 }
-
 
 <#
 .SYNOPSIS
@@ -59,31 +55,39 @@ function Get-NodeEnvironment {
     Given a node name in the old (e.g. UK2-D-ADM005) or new (e.g. UK1DEVGENAPP222) style will return the corresponding environment name based on the node names environment identifier
 #>
 function Get-EnvironmentIdentifier {
-	[CmdletBinding()]
-	[OutputType([String])]
+    [CmdletBinding()]
+    [OutputType([String])]
     Param(
         [Parameter(Mandatory = $True,
-            HelpMessage="Please supply a value for NodeName" )]
-            [ValidateNotNullOrEmpty()]
-            [String]
-            $NodeName
-        )
+            HelpMessage = "Please supply a value for NodeName" )]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $NodeName
+    )
 
-    Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
+    switch -regex ($NodeName) {
+        "-D-|DEV" {return "DEV"}
+        "-U-|UAT" {return "UAT"}
+        "-P-|-R-|PRD|DRS" {return "PRD"}
+        default {Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"}
+    }
 }
 
-
 function Get-Node {
-     Param(
-            [Parameter()]
-                $NodeName
-     )
+    Param(
+        [Parameter()]
+        $NodeName
+    )
 
-        $JSON = Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
+    $json = Invoke-RestMethod -Uri "https://mesh.webapp.com/nodes/$NodeName" -Method GET
 
-        $n = ($JSON | ConvertFrom-Json)
-        return $n
-
+    try {
+        $validJson = ($json | ConvertFrom-Json)
+        return $validJson
+    }
+    catch {
+        Throw "Error: Parsed JSON is invalid, $Json"
+    }
 }
 
 Export-ModuleMember -Function Get-NodeRegion, Get-NodeEnvironment, Get-Node
