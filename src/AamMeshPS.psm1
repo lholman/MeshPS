@@ -69,7 +69,14 @@ function Get-EnvironmentIdentifier {
             $NodeName
         )
 
-    Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
+    switch -regex ($NodeName) {
+        "-D-|DEV" {
+            return "DEV"
+        }
+        default {
+            Throw "Error: Get-NodeEnvironment:Get-EnvironmentIdentifier: Unrecognized environment identifier within node name"
+        }
+    }
 }
 
 
